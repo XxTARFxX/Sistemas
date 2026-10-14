@@ -1,0 +1,933 @@
+
+/* ===== CONFIGURACIÓN GENERAL ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    background: #03010c;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #03010c;
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* ===== UNIVERSO Y FONDO ===== */
+
+.universo {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 18% 28%,
+            rgba(105, 35, 175, 0.35),
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 82% 65%,
+            rgba(30, 75, 185, 0.28),
+            transparent 43%
+        ),
+        radial-gradient(
+            ellipse at 55% 12%,
+            rgba(190, 50, 145, 0.22),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at center,
+            #241044 0%,
+            #0b061c 55%,
+            #03010c 100%
+        );
+
+    transition: background 1.5s ease;
+}
+
+/* ===== NEBULOSA ANIMADA ===== */
+
+.universo::before {
+    content: "";
+    position: absolute;
+    inset: -15%;
+    z-index: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 35%,
+            rgba(145, 55, 235, 0.48) 0%,
+            rgba(105, 35, 175, 0.24) 28%,
+            transparent 52%
+        ),
+        radial-gradient(
+            ellipse at 78% 62%,
+            rgba(45, 105, 235, 0.38) 0%,
+            rgba(35, 60, 155, 0.18) 32%,
+            transparent 53%
+        ),
+        radial-gradient(
+            ellipse at 53% 15%,
+            rgba(235, 80, 175, 0.30) 0%,
+            transparent 43%
+        ),
+        radial-gradient(
+            ellipse at 42% 85%,
+            rgba(120, 45, 200, 0.35) 0%,
+            transparent 48%
+        );
+
+    filter: blur(24px);
+    opacity: 0.95;
+    animation: respirarNebulosa 14s ease-in-out infinite alternate;
+}
+
+/* ===== ESTRELLAS ===== */
+
+.estrellas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.estrella {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 8px white;
+    animation: parpadear 2s infinite alternate;
+}
+
+@keyframes parpadear {
+    from {
+        opacity: 0.25;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+/* ===== ESTRELLA FUGAZ ===== */
+
+.estrellas::after {
+    content: "";
+    position: absolute;
+    top: 12%;
+    left: -30%;
+    width: 150px;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.95),
+        rgba(190, 155, 255, 0.9),
+        transparent
+    );
+
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(195, 160, 255, 0.9);
+    opacity: 0;
+    transform: rotate(-25deg);
+    animation: estrellaFugaz 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes estrellaFugaz {
+    0%, 65% {
+        left: -30%;
+        top: 12%;
+        opacity: 0;
+    }
+
+    68% {
+        opacity: 1;
+    }
+
+    82% {
+        left: 120%;
+        top: 48%;
+        opacity: 0;
+    }
+
+    100% {
+        left: 120%;
+        top: 48%;
+        opacity: 0;
+    }
+}
+
+@keyframes respirarNebulosa {
+    from {
+        opacity: 0.72;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* ===== PANTALLA INICIAL ===== */
+
+.pantalla-inicial {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 700px;
+    padding: 25px;
+    text-align: center;
+    animation: aparecer 1.2s ease both;
+}
+
+h1 {
+    margin-bottom: 25px;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #f0d6ff;
+    text-shadow: 0 0 20px #a64dff;
+}
+
+p {
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #e4d9f5;
+}
+
+/* ===== BOTONES ===== */
+
+button {
+    padding: 15px 25px;
+    border: 1px solid #d5a5ff;
+    border-radius: 30px;
+
+    background: linear-gradient(
+        135deg,
+        #7839bd,
+        #35145d
+    );
+
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 0 20px #803ed0;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px #b875ff;
+}
+
+button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 5px;
+}
+
+/* ===== CONTROL DE PANTALLAS ===== */
+
+.oculto {
+    display: none !important;
+}
+
+/* ===== SEGUNDA PANTALLA ===== */
+
+.viaje {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    overflow: hidden;
+    animation: aparecer 1.2s ease both;
+}
+
+.viaje h2 {
+    max-width: 650px;
+    margin: 25px 0 15px;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: #f0d6ff;
+    text-shadow: 0 0 18px #a64dff;
+}
+
+.viaje p {
+    max-width: 550px;
+}
+
+/* ===== GALAXIA CENTRAL ===== */
+
+.galaxia {
+    width: min(65vw, 300px);
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        ellipse at center,
+        #fff5ff 0%,
+        #dc9cff 4%,
+        #853bd6 15%,
+        #31105f 35%,
+        #120824 55%,
+        transparent 72%
+    );
+
+    box-shadow:
+        0 0 30px #9d4edd,
+        0 0 70px #6422a0,
+        0 0 120px #35105d;
+
+    animation:
+        flotar 5s ease-in-out infinite,
+        girar 25s linear infinite;
+}
+
+@keyframes flotar {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes girar {
+    from {
+        filter: hue-rotate(0deg);
+    }
+
+    to {
+        filter: hue-rotate(25deg);
+    }
+}
+
+/* ===== ANIMACIÓN DE APARICIÓN ===== */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== FONDO DURANTE EL VIAJE ===== */
+
+body.en-viaje .universo {
+    background:
+        radial-gradient(
+            ellipse at 20% 30%,
+            rgba(125, 40, 195, 0.34),
+            transparent 45%
+        ),
+        radial-gradient(
+            ellipse at 80% 70%,
+            rgba(35, 75, 185, 0.28),
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at center,
+            #351052 0%,
+            #10051f 60%,
+            #03010c 100%
+        );
+}
+
+/* ===== PANTALLA DE LOS PLANETAS ===== */
+
+.pantalla-planetas {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    padding: 35px 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    /* Fondo semitransparente: deja ver la nebulosa */
+    background: radial-gradient(
+        ellipse at 50% 40%,
+        rgba(75, 30, 125, 0.30),
+        rgba(3, 1, 12, 0.48) 85%
+    );
+
+    animation: aparecer 1s ease both;
+}
+
+.pantalla-planetas h2 {
+    color: #f0d6ff;
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    text-shadow: 0 0 18px #a64dff;
+    margin-bottom: 15px;
+}
+
+.pantalla-planetas > p {
+    max-width: 600px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* ===== DISTRIBUCIÓN DE LOS PLANETAS ===== */
+
+.contenedor-planetas {
+    width: min(100%, 950px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 25px auto;
+}
+
+/* ===== BOTONES CON FORMA DE PLANETA ===== */
+
+.planeta {
+    position: relative;
+    width: 190px;
+    min-height: 220px;
+    padding: 15px 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    background: transparent;
+    border: none;
+    border-radius: 20px;
+    box-shadow: none;
+
+    color: #ffffff;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-shadow: 0 0 10px rgba(196, 142, 255, 0.8);
+
+    animation: flotarPlaneta 4s ease-in-out infinite;
+}
+
+.planeta:nth-child(2) {
+    animation-delay: -1.3s;
+}
+
+.planeta:nth-child(3) {
+    animation-delay: -2.5s;
+}
+
+.planeta:hover {
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 18px rgba(185, 120, 255, 0.12);
+}
+
+/* ===== ESFERA DEL PRIMER PLANETA ===== */
+
+.planeta::before {
+    content: "";
+    display: block;
+    width: 105px;
+    height: 105px;
+    flex-shrink: 0;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle at 30% 25%,
+        #fff4ff 0%,
+        #e6a5ff 10%,
+        #a64dff 35%,
+        #47156f 70%,
+        #10051f 100%
+    );
+
+    box-shadow:
+        inset -12px -10px 22px rgba(0, 0, 0, 0.55),
+        0 0 20px #a64dff,
+        0 0 45px rgba(166, 77, 255, 0.5);
+}
+
+/* ===== ESFERA DEL SEGUNDO PLANETA ===== */
+
+.planeta:nth-child(2)::before {
+    background: radial-gradient(
+        circle at 30% 25%,
+        #ffffff 0%,
+        #a9f4ff 10%,
+        #32bde8 35%,
+        #174c91 70%,
+        #07152f 100%
+    );
+
+    box-shadow:
+        inset -12px -10px 22px rgba(0, 0, 0, 0.55),
+        0 0 20px #32bde8,
+        0 0 45px rgba(50, 189, 232, 0.45);
+}
+
+/* ===== ESFERA DEL TERCER PLANETA ===== */
+
+.planeta:nth-child(3)::before {
+    background: radial-gradient(
+        circle at 30% 25%,
+        #fff7d6 0%,
+        #ffb6db 10%,
+        #e45d9d 35%,
+        #78275d 70%,
+        #24091f 100%
+    );
+
+    box-shadow:
+        inset -12px -10px 22px rgba(0, 0, 0, 0.55),
+        0 0 20px #e45d9d,
+        0 0 45px rgba(228, 93, 157, 0.45);
+}
+
+/* ===== ANILLOS ORBITALES ===== */
+
+.planeta::after {
+    content: "";
+    position: absolute;
+    top: 47px;
+    left: 50%;
+    width: 145px;
+    height: 48px;
+
+    border: 2px solid rgba(219, 169, 255, 0.8);
+    border-radius: 50%;
+    transform: translateX(-50%) rotate(-22deg);
+    pointer-events: none;
+}
+
+.planeta:nth-child(2)::after {
+    border-color: rgba(125, 230, 255, 0.8);
+    transform: translateX(-50%) rotate(25deg);
+}
+
+.planeta:nth-child(3)::after {
+    border-color: rgba(255, 156, 211, 0.8);
+    transform: translateX(-50%) rotate(-35deg);
+}
+
+/* ===== MOVIMIENTO SUAVE DE LOS PLANETAS ===== */
+
+@keyframes flotarPlaneta {
+    0%, 100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -12px;
+    }
+}
+
+/* ===== MENSAJES Y CARTA ===== */
+
+.mensaje-planeta {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 750px);
+    max-height: 60vh;
+    overflow-y: auto;
+
+    margin: 20px auto;
+    padding: 25px;
+
+    text-align: left;
+    border: 1px solid rgba(213, 165, 255, 0.5);
+    border-radius: 20px;
+
+    background: rgba(14, 7, 35, 0.96);
+    box-shadow: 0 0 30px rgba(128, 62, 208, 0.3);
+}
+
+.mensaje-planeta h3 {
+    text-align: center;
+    color: #f0d6ff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.mensaje-planeta p {
+    white-space: pre-line;
+    line-height: 1.8;
+}
+
+/* Botones para cerrar y regresar */
+
+.boton-volver {
+    margin: 12px auto;
+}
+
+/* ===== ADAPTACIÓN PARA CELULARES ===== */
+
+@media (max-width: 600px) {
+    .universo::before {
+        filter: blur(18px);
+    }
+
+    .estrellas::after {
+        width: 100px;
+    }
+
+    .pantalla-inicial,
+    .viaje {
+        padding: 20px;
+    }
+
+    .viaje h2 {
+        font-size: 1.8rem;
+    }
+
+    .viaje p,
+    .pantalla-inicial p {
+        font-size: 1rem;
+    }
+
+    .galaxia {
+        width: min(65vw, 240px);
+    }
+
+    button {
+        max-width: 100%;
+        padding: 13px 20px;
+    }
+
+    .pantalla-planetas {
+        justify-content: flex-start;
+        padding: 35px 15px;
+    }
+
+    .contenedor-planetas {
+        gap: 5px;
+        margin: 15px auto;
+    }
+
+    .planeta {
+        width: 145px;
+        min-height: 185px;
+        font-size: 0.85rem;
+    }
+
+    .planeta::before {
+        width: 80px;
+        height: 80px;
+    }
+
+    .planeta::after {
+        top: 48px;
+        width: 110px;
+        height: 35px;
+    }
+
+    .mensaje-planeta {
+        max-height: 65vh;
+        padding: 20px;
+    }
+}
+
+/* ===== ACCESIBILIDAD ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    .universo::before,
+    .estrellas::after,
+    .estrella,
+    .galaxia,
+    .planeta,
+    .pantalla-inicial,
+    .viaje,
+    .pantalla-planetas {
+        animation: none !important;
+    }
+}
+
+/* ===== MEJORA 2: TEXTURAS ESPACIALES ===== */
+
+/* Planeta morado: superficie rocosa */
+.planeta:nth-child(1)::before {
+    background:
+        radial-gradient(
+            ellipse at 28% 32%,
+            rgba(255, 255, 255, 0.65) 0%,
+            transparent 13%
+        ),
+        radial-gradient(
+            ellipse at 65% 65%,
+            rgba(30, 5, 55, 0.8) 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            ellipse at 35% 72%,
+            rgba(220, 150, 255, 0.55) 0%,
+            transparent 18%
+        ),
+        repeating-radial-gradient(
+            ellipse at 40% 45%,
+            transparent 0 9px,
+            rgba(35, 5, 65, 0.13) 10px 12px
+        ),
+        radial-gradient(
+            circle at 30% 25%,
+            #f8dcff,
+            #c16bff 25%,
+            #7830b8 55%,
+            #180726 100%
+        );
+
+    box-shadow:
+        inset -14px -12px 22px rgba(0, 0, 0, 0.65),
+        inset 5px 4px 12px rgba(255, 255, 255, 0.15),
+        0 0 24px rgba(183, 92, 255, 0.85),
+        0 0 48px rgba(130, 45, 220, 0.35);
+}
+
+/* Planeta azul: superficie con bandas */
+.planeta:nth-child(2)::before {
+    background:
+        radial-gradient(
+            ellipse at 30% 25%,
+            rgba(255, 255, 255, 0.75),
+            transparent 15%
+        ),
+        repeating-linear-gradient(
+            165deg,
+            transparent 0 12px,
+            rgba(155, 240, 255, 0.20) 13px 17px,
+            transparent 18px 25px
+        ),
+        radial-gradient(
+            circle at 30% 25%,
+            #e1ffff,
+            #55d5f5 24%,
+            #1769bb 58%,
+            #06152e 100%
+        );
+
+    box-shadow:
+        inset -14px -12px 22px rgba(0, 0, 0, 0.65),
+        inset 5px 4px 12px rgba(255, 255, 255, 0.15),
+        0 0 24px rgba(50, 189, 232, 0.85),
+        0 0 48px rgba(30, 100, 220, 0.35);
+}
+
+/* Planeta rosado: superficie cálida */
+.planeta:nth-child(3)::before {
+    background:
+        radial-gradient(
+            ellipse at 30% 28%,
+            rgba(255, 255, 230, 0.8),
+            transparent 14%
+        ),
+        radial-gradient(
+            ellipse at 65% 55%,
+            rgba(115, 20, 75, 0.65),
+            transparent 32%
+        ),
+        repeating-linear-gradient(
+            145deg,
+            transparent 0 15px,
+            rgba(255, 205, 230, 0.16) 16px 19px,
+            transparent 20px 29px
+        ),
+        radial-gradient(
+            circle at 30% 25%,
+            #fff2dc,
+            #ff9dcf 27%,
+            #c7438a 60%,
+            #2b081f 100%
+        );
+
+    box-shadow:
+        inset -14px -12px 22px rgba(0, 0, 0, 0.65),
+        inset 5px 4px 12px rgba(255, 255, 255, 0.15),
+        0 0 24px rgba(255, 110, 190, 0.8),
+        0 0 48px rgba(210, 60, 150, 0.35);
+}
+
+/* Luz suave alrededor de los anillos */
+.planeta::after {
+    box-shadow: 0 0 8px rgba(220, 185, 255, 0.2);
+}
+
+/* Mejor respuesta al tocar en pantallas táctiles */
+.planeta {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.planeta:active {
+    filter: brightness(1.15);
+}
+
+/* ===== MEJORA 3: CARTA ROMÁNTICA Y CÓMODA DE LEER ===== */
+
+#cartaCompleta {
+    width: min(100%, 780px);
+    max-height: none;
+    overflow: visible;
+    box-sizing: border-box;
+    margin: 25px auto;
+    padding: clamp(20px, 5vw, 42px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 15, 55, 0.94),
+            rgba(10, 12, 35, 0.96)
+        );
+
+    border: 1px solid rgba(218, 170, 255, 0.38);
+    border-radius: 24px;
+
+    box-shadow:
+        0 0 30px rgba(155, 80, 255, 0.16),
+        inset 0 0 25px rgba(255, 255, 255, 0.025);
+
+    scroll-margin-top: 20px;
+}
+
+#cartaCompleta h3 {
+    color: #f3d8ff;
+    text-align: center;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    line-height: 1.4;
+    margin: 0 0 30px;
+    text-shadow: 0 0 18px rgba(207, 145, 255, 0.4);
+}
+
+#cartaCompleta p {
+    color: #f0e8fa;
+    font-size: clamp(1rem, 2.5vw, 1.08rem);
+    line-height: 1.95;
+    text-align: left;
+    overflow-wrap: anywhere;
+    margin: 0 0 23px;
+}
+
+#cartaCompleta .boton-volver {
+    display: block;
+    max-width: 100%;
+    margin: 32px auto 0;
+}
+
+@media (max-width: 600px) {
+    #cartaCompleta {
+        width: 100%;
+        margin: 18px auto;
+        padding: 22px 18px;
+        border-radius: 18px;
+    }
+
+    #cartaCompleta p {
+        font-size: 1rem;
+        line-height: 1.85;
+        margin-bottom: 21px;
+    }
+}
+
+/* ===== MEJORA 4: SORPRESA FINAL ===== */
+
+.sorpresa-final {
+    margin: 35px 0 25px;
+    padding: 25px 18px;
+    text-align: center;
+    border: 1px solid rgba(218, 170, 255, 0.4);
+    border-radius: 20px;
+    background: linear-gradient(
+        145deg,
+        rgba(116, 53, 160, 0.22),
+        rgba(25, 20, 65, 0.55)
+    );
+    box-shadow: 0 0 25px rgba(166, 100, 255, 0.12);
+}
+
+.sorpresa-estrella {
+    color: #f2d5ff;
+    font-size: 2rem;
+    margin-bottom: 12px;
+    animation: latidoSorpresa 2s ease-in-out infinite;
+}
+
+.sorpresa-final h3 {
+    color: #f3d8ff;
+    margin-bottom: 18px;
+}
+
+.sorpresa-final p {
+    text-align: center !important;
+}
+
+.sorpresa-final button {
+    max-width: 100%;
+    margin: 15px auto;
+    padding: 13px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    background: linear-gradient(135deg, #a64dff, #6734b8);
+    color: white;
+    font: inherit;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.sorpresa-final button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(187, 125, 255, 0.45);
+}
+
+@keyframes latidoSorpresa {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.12);
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sorpresa-estrella {
+        animation: none;
+    }
+}
